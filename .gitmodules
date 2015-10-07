@@ -1,0 +1,3 @@
+[submodule "LinqExpressionsMapper"]
+	path = LinqExpressionsMapper
+	url = https://github.com/esolCrusador/LinqExpressionsMapper.git
