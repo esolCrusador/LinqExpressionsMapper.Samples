@@ -22,11 +22,11 @@ namespace LinqExpressionsMapper.Samples.AllExamples
             public int? MinutesAfterEnrollment { get; set; }
         }
 
-        public class StudentModelMapper : ISelectExpressionNonCache<Student, StudentModel>
+        public class StudentModelMapper : ISelectDynamicExpression<Student, StudentModel>
         {
 
             /// <summary>
-            /// We need to use ISelectExpressionNonCache because DateTime.Now is changed and expression will give different results, so it requires to be rebuild every time.
+            /// We need to use ISelectDynamicExpression because DateTime.Now is changed and expression will give different results, so it requires to be rebuild every time.
             /// </summary>
             public Expression<Func<Student, StudentModel>> GetSelectExpression()
             {
