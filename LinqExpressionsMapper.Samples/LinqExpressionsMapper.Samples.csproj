@@ -64,15 +64,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllExamples\CultureResolveExample.cs" />
-    <Compile Include="AllExamples\CustomStudentMappingExample.cs" />
     <Compile Include="AllExamples\ExpressionsCombinationExample.cs" />
     <Compile Include="AllExamples\FilterExpression.cs" />
     <Compile Include="AllExamples\InitInheritanceExample.cs" />
     <Compile Include="AllExamples\MemberInitExample.cs" />
     <Compile Include="AllExamples\SelectNonCache.cs" />
     <Compile Include="AllExamples\SimpleSelect.cs" />
-    <Compile Include="CustomMappers\IMapProperties.cs" />
-    <Compile Include="CustomModels\StudentDomainModel.cs" />
     <Compile Include="DAL\DataEntities\Course.cs" />
     <Compile Include="DAL\DataEntities\CourseRes.cs" />
     <Compile Include="DAL\DataEntities\Enrollment.cs" />

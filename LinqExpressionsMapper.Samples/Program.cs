@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using LinqExpressionsMapper.Samples.AllExamples;
-using LinqExpressionsMapper.Samples.CustomMappers;
 using LinqExpressionsMapper.Samples.DAL;
 using LinqExpressionsMapper.Samples.DAL.DataEntities;
 using LinqExpressionsMapper.Samples.Models;
@@ -22,8 +21,6 @@ namespace LinqExpressionsMapper.Samples
             {
                 HowWeDid(ctx);
 
-                Mapper.RegisterMapInterface(typeof(IMapProperties<,>), "Map");
-
                 HowWeDo(ctx);
 
                 PropertiesMapperExample(ctx);
@@ -35,8 +32,6 @@ namespace LinqExpressionsMapper.Samples
                 MemberInitExample.ShowStudents(ctx);
                 CultureResolveExample.ShowCourses(ctx);
                 FilterExpression.FilterStudents(ctx);
-
-                CustomStudentMappingExample.ShowStudents(ctx);
             }
 
             Console.ReadKey();
