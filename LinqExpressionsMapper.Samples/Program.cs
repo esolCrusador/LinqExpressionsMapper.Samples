@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity.SqlServer;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using LinqExpressionsMapper.Extensions.LinqExpression;
 using LinqExpressionsMapper.Samples.AllExamples;
 using LinqExpressionsMapper.Samples.DAL;
 using LinqExpressionsMapper.Samples.DAL.DataEntities;
@@ -116,7 +118,7 @@ namespace LinqExpressionsMapper.Samples
             var enrollments1 = ctx.Enrollments.ResolveSelect<Enrollment, EnrollmentBaseModel>().ToList();
             Console.WriteLine(GetResultsString("Enrollment1", enrollments1));
 
-            var enrollments2 = ctx.Enrollments.Where(e => e.Grade != null).ResolveSelectExternal<Enrollment, EnrollmentBaseModel>().ToList();
+            var enrollments2 = ctx.Enrollments.Where(e => e.Grade != null).ResolveSelectExternal<Enrollment, EnrollmentBaseModel>().Sort("GradeString", ListSortDirection.Ascending).Sort("EnrollmentId", ListSortDirection.Descending, false).ToList();
             Console.WriteLine(GetResultsString("Enrollment2", enrollments2));
 
             var courses = ctx.Courses.ResolveSelectExternal<Course, CourseFullModel>().ToList();
