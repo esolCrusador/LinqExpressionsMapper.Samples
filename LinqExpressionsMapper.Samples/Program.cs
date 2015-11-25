@@ -115,10 +115,16 @@ namespace LinqExpressionsMapper.Samples
                 .ResolveSelectExternal<Student, StudentModel>();
             Console.WriteLine(GetResultsString("Other Students", studentsInOtherController));
 
-            var enrollments1 = ctx.Enrollments.ResolveSelect<Enrollment, EnrollmentBaseModel>().ToList();
+            var enrollments1 = ctx.Enrollments
+                .Sort("Student.LastName", ListSortDirection.Ascending)
+                .ThenSort("Course.Enrollments.Count", ListSortDirection.Descending)
+                .ResolveSelect<Enrollment, EnrollmentBaseModel>().ToList();
             Console.WriteLine(GetResultsString("Enrollment1", enrollments1));
 
-            var enrollments2 = ctx.Enrollments.Where(e => e.Grade != null).ResolveSelectExternal<Enrollment, EnrollmentBaseModel>().Sort("GradeString", ListSortDirection.Ascending).Sort("EnrollmentId", ListSortDirection.Descending, false).ToList();
+            var enrollments2 = ctx.Enrollments.Where(e => e.Grade != null).ResolveSelectExternal<Enrollment, EnrollmentBaseModel>()
+                .Sort("GradeString", ListSortDirection.Ascending)
+                .ThenSort("EnrollmentId", ListSortDirection.Descending)
+                .ToList();
             Console.WriteLine(GetResultsString("Enrollment2", enrollments2));
 
             var courses = ctx.Courses.ResolveSelectExternal<Course, CourseFullModel>().ToList();
