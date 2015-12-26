@@ -13,10 +13,10 @@ namespace LinqExpressionsMapper.Samples.Models
         {
             Expression<Func<Course, CourseFullModel>> initExpression = course => new CourseFullModel { };
             
-            Expression<Func<Course, CourseModel>> baseInit = Mapper.GetExternalExpression<Course, CourseModel>();
+            Expression<Func<Course, CourseModel>> baseInit = Mapper.From<Course>().To<CourseModel>();
             initExpression = initExpression.InheritInit(baseInit);
 
-            initExpression = initExpression.AddMemberInit(course => course.Enrollments, courseMode => courseMode.Enrollments, Mapper.GetExternalExpression<Enrollment, CourseEnrollmentModel>());
+            initExpression = initExpression.AddMemberInit(course => course.Enrollments, courseMode => courseMode.Enrollments, Mapper.From<Enrollment>().To<CourseEnrollmentModel>());
 
             return initExpression;
         }

@@ -14,11 +14,11 @@ namespace LinqExpressionsMapper.Samples.Models
         {
             Expression<Func<Course, CourseWithOldStudentsModel>> select = course => new CourseWithOldStudentsModel();
 
-            select = select.InheritInit(Mapper.GetExternalExpression<Course, CourseModel>());
+            select = select.InheritInit(Mapper.From<Course>().To<CourseModel>().GetExpression());
             select = select.AddMemberInit(
                 course => course.Enrollments.Select(e => e.Student).Where(s => SqlFunctions.DateDiff("year", s.EnrollmentDate, DateTime.Now) > 12),
                 course => course.Students,
-                Mapper.GetExternalExpression<Student, StudentModel>()
+                Mapper.From<Student>().To<StudentModel>()
                 );
 
             return select;

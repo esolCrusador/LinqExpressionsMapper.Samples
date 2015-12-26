@@ -12,13 +12,13 @@ namespace LinqExpressionsMapper.Samples.AllExamples
         public static void ShowCourses(SchoolContext context)
         {
             //Initialization of course base models.
-            var basceCourses = context.Courses.ResolveSelect<Course, CourseBaseModel>().ToList();
+            var basceCourses = context.Courses.Map().To<CourseBaseModel>().ToList();
 
             //Initialization of course with inherited course model.
-            var courses = context.Courses.ResolveSelect<Course, CourseModel>().ToList();
+            var courses = context.Courses.Map().To<CourseModel>().ToList();
 
             //Initialization of cross entities inherited model.
-            var localizedCourses = context.CourseRes.ResolveSelect<CourseRes, LocalizedCourseModel>().ToList();
+            var localizedCourses = context.CourseRes.Map().To<LocalizedCourseModel>().ToList();
         }
 
         public class CourseBaseModel : ISelectExpression<Course, CourseBaseModel>
@@ -47,7 +47,7 @@ namespace LinqExpressionsMapper.Samples.AllExamples
                     EnrollmentsCount = course.Enrollments.Count
                 };
 
-                select = select.InheritInit(Mapper.GetExpression<Course, CourseBaseModel>());
+                select = select.InheritInit(Mapper.From<Course>().To<CourseBaseModel>().GetExpression());
 
                 return select;
             }
@@ -65,7 +65,7 @@ namespace LinqExpressionsMapper.Samples.AllExamples
                     Culture = course.Culture
                 };
 
-                select = select.InheritInit(course => course.Course, Mapper.GetExpression<Course, CourseModel>());
+                select = select.InheritInit(course => course.Course, Mapper.From<Course>().To<CourseModel>().GetExpression());
 
                 return select;
             }

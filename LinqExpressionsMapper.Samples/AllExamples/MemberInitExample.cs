@@ -12,10 +12,10 @@ namespace LinqExpressionsMapper.Samples.AllExamples
         public static void ShowStudents(SchoolContext context)
         {
             // Reuse member init of single member.
-            var enrollments = context.Enrollments.ResolveSelect<Enrollment, EnrollmentModel>().ToList();
+            var enrollments = context.Enrollments.Map().To<EnrollmentModel>().ToList();
 
             // Reurse member init of IEnumerable of members.
-            var studentsWithCourses = context.Students.ResolveSelect<Student, StudentWithCoursesModel>().ToList();
+            var studentsWithCourses = context.Students.Map().To<StudentWithCoursesModel>().ToList();
         }
 
         public class EnrollmentModel: ISelectExpression<Enrollment, EnrollmentModel>
@@ -95,8 +95,8 @@ namespace LinqExpressionsMapper.Samples.AllExamples
                         MaxGade = student.Enrollments.Max(e=>e.Grade)
                     };
 
-                select = select.InheritInit(Mapper.GetExpression<Student, StudentBaseModel>());
-                select = select.AddMemberInit(student => student.Enrollments.Select(enrollment => enrollment.Course), courseModel => courseModel.Courses, Mapper.GetExpression<Course, CourseBaseModel>());
+                select = select.InheritInit(Mapper.From<Student>().To<StudentBaseModel>().GetExpression());
+                select = select.AddMemberInit(student => student.Enrollments.Select(enrollment => enrollment.Course), courseModel => courseModel.Courses, Mapper.From<Course>().To<CourseBaseModel>());
 
                 return select;
             }
