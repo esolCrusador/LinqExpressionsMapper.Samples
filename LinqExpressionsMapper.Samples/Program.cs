@@ -34,6 +34,7 @@ namespace LinqExpressionsMapper.Samples
                 MemberInitExample.ShowStudents(ctx);
                 CultureResolveExample.ShowCourses(ctx);
                 FilterExpression.FilterStudents(ctx);
+                SelectUsingMapper.ShowStudents(ctx);
             }
 
             Console.ReadKey();
