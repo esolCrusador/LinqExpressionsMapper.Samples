@@ -10,10 +10,10 @@ namespace LinqExpressionsMapper.Samples.AllExamples
     {
         public static void ShowStudents(SchoolContext context)
         {
-            var students = context.Students.Map().To<StudentModel>().ToList();
+            var students = context.Students.Project().To<StudentModel>().ToList();
 
             Mapper.Register(new CourseModelMapper());
-            var courses = context.Courses.Map().To<CourseModel>().ToList();
+            var courses = context.Courses.Project().To<CourseModel>().ToList();
         }
 
         public class StudentModel:ISelectExpression<Student, StudentModel>
