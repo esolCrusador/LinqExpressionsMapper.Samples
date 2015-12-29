@@ -12,13 +12,13 @@ namespace LinqExpressionsMapper.Samples.AllExamples
         public static void ShowCourses(SchoolContext context)
         {
             //Initialization of course base models.
-            var basceCourses = context.Courses.Project().To<CourseBaseModel>().ToList();
+            var basceCourses = context.Courses.Project().To<CourseBaseModel>().Querable.ToList();
 
             //Initialization of course with inherited course model.
-            var courses = context.Courses.Project().To<CourseModel>().ToList();
+            var courses = context.Courses.Project().To<CourseModel>().GetQueryable().ToList();
 
             //Initialization of cross entities inherited model.
-            var localizedCourses = context.CourseRes.Project().To<LocalizedCourseModel>().ToList();
+            var localizedCourses = context.CourseRes.Project().To<LocalizedCourseModel>().Querable.ToList();
         }
 
         public class CourseBaseModel : ISelectExpression<Course, CourseBaseModel>

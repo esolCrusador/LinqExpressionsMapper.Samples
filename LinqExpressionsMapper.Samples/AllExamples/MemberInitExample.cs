@@ -12,10 +12,10 @@ namespace LinqExpressionsMapper.Samples.AllExamples
         public static void ShowStudents(SchoolContext context)
         {
             // Reuse member init of single member.
-            var enrollments = context.Enrollments.Project().To<EnrollmentModel>().ToList();
+            var enrollments = context.Enrollments.Project().To<EnrollmentModel>().Querable.ToList();
 
             // Reurse member init of IEnumerable of members.
-            var studentsWithCourses = context.Students.Project().To<StudentWithCoursesModel>().ToList();
+            var studentsWithCourses = context.Students.Project().To<StudentWithCoursesModel>().Querable.ToList();
         }
 
         public class EnrollmentModel: ISelectExpression<Enrollment, EnrollmentModel>
