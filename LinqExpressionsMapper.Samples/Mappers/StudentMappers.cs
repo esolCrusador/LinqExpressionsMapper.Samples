@@ -7,7 +7,7 @@ using LinqExpressionsMapper.Samples.Models;
 
 namespace LinqExpressionsMapper.Samples.Mappers
 {
-    public class StudentMappers: 
+    public class StudentMappers: IMultipleMappings,
         ISelectExpression<Student, StudentModel2>, 
         ISelectExpression<Course, CourseModel2>, 
         IPropertiesMapper<StudentModel2, Student>, 

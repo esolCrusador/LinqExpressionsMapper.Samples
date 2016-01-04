@@ -21,7 +21,7 @@ namespace LinqExpressionsMapper.Samples.AllExamples
 
             Mapper.Register(new StudentModelMapper());
             //GetFilter() is extension method for IFilterExpression<Student> interface and it combines all expression into one using &&.
-            var students = ctx.Students.Where(studentsFilter.GetFilter()).Project().To<StudentModel>().Querable.ToList();
+            var students = ctx.Students.Where(studentsFilter.GetFilter()).Project().To<StudentModel>().Queryable.ToList();
         }
 
         public class StudentModel

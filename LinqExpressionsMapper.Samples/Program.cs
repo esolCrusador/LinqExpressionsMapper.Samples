@@ -109,30 +109,30 @@ namespace LinqExpressionsMapper.Samples
         }
         private static void HowWeDo(SchoolContext ctx)
         {
-            var students = ctx.Students.Project().To<StudentModel>().Querable.ToList();
+            var students = ctx.Students.Project().To<StudentModel>().Queryable.ToList();
             Console.WriteLine(GetResultsString("Students", students));
 
             var studentsInOtherController = ctx.Students.Where(s => SqlFunctions.DateDiff("year", s.EnrollmentDate, DateTime.Now) < 12)
-                .Project().To<StudentModel>().Querable;
+                .Project().To<StudentModel>().Queryable;
             Console.WriteLine(GetResultsString("Other Students", studentsInOtherController));
 
             var enrollments1 = ctx.Enrollments
                 .Sort("Student.LastName", ListSortDirection.Ascending)
                 .ThenSort("Course.Enrollments.Count", ListSortDirection.Descending)
-                .Project().To<EnrollmentBaseModel>().Querable.ToList();
+                .Project().To<EnrollmentBaseModel>().Queryable.ToList();
             Console.WriteLine(GetResultsString("Enrollment1", enrollments1));
 
             var enrollments2 = ctx.Enrollments.Where(e => e.Grade != null)
-                .Project().To<EnrollmentBaseModel>().Querable
+                .Project().To<EnrollmentBaseModel>().Queryable
                 .Sort("GradeString", ListSortDirection.Ascending)
                 .ThenSort("EnrollmentId", ListSortDirection.Descending)
                 .ToList();
             Console.WriteLine(GetResultsString("Enrollment2", enrollments2));
 
-            var courses = ctx.Courses.Project().To<CourseFullModel>().Querable.ToList();
+            var courses = ctx.Courses.Project().To<CourseFullModel>().Queryable.ToList();
             Console.WriteLine(GetResultsString("Courses", courses));
 
-            var courseWithStudents = ctx.Courses.Project().To<CourseWithOldStudentsModel>().Querable.ToList();
+            var courseWithStudents = ctx.Courses.Project().To<CourseWithOldStudentsModel>().Queryable.ToList();
             Console.WriteLine(GetResultsString("Courses with students", courseWithStudents));
         }
 
