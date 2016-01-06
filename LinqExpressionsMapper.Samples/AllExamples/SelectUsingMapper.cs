@@ -12,9 +12,9 @@ namespace LinqExpressionsMapper.Samples.AllExamples
         public static void ShowStudents(SchoolContext context)
         {
             Student newStudent = Mapper.From(new StudentModel2 {StudentId = 1, StudentName = "Boris Alexandrovich Sotsky"}).To<Student>().Using<StudentMappers>();
-            var students = context.Students.Project().To<StudentModel2>().Using<StudentMappers>().Queryable.ToList();
+            var students = context.Students.Project().To<StudentModel2>(c=>c.Using<StudentMappers>()).ToList();
 
-            var courses = context.Courses.Project().To<CourseModel2>().Using<StudentMappers>().GetQueryable(Culture.Default).ToList();
+            var courses = context.Courses.Project().To<CourseModel2>(c=>c.Using<StudentMappers>().WithParam(Culture.Default)).ToList();
         }
     }
 }

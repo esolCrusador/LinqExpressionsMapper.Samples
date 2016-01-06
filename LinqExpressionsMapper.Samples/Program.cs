@@ -109,30 +109,30 @@ namespace LinqExpressionsMapper.Samples
         }
         private static void HowWeDo(SchoolContext ctx)
         {
-            var students = ctx.Students.Project().To<StudentModel>().Queryable.ToList();
+            var students = ctx.Students.Project().To<StudentModel>().ToList();
             Console.WriteLine(GetResultsString("Students", students));
 
             var studentsInOtherController = ctx.Students.Where(s => SqlFunctions.DateDiff("year", s.EnrollmentDate, DateTime.Now) < 12)
-                .Project().To<StudentModel>().Queryable;
+                .Project().To<StudentModel>();
             Console.WriteLine(GetResultsString("Other Students", studentsInOtherController));
 
             var enrollments1 = ctx.Enrollments
                 .Sort("Student.LastName", ListSortDirection.Ascending)
                 .ThenSort("Course.Enrollments.Count", ListSortDirection.Descending)
-                .Project().To<EnrollmentBaseModel>().Queryable.ToList();
+                .Project().To<EnrollmentBaseModel>().ToList();
             Console.WriteLine(GetResultsString("Enrollment1", enrollments1));
 
             var enrollments2 = ctx.Enrollments.Where(e => e.Grade != null)
-                .Project().To<EnrollmentBaseModel>().Queryable
+                .Project().To<EnrollmentBaseModel>()
                 .Sort("GradeString", ListSortDirection.Ascending)
                 .ThenSort("EnrollmentId", ListSortDirection.Descending)
                 .ToList();
             Console.WriteLine(GetResultsString("Enrollment2", enrollments2));
 
-            var courses = ctx.Courses.Project().To<CourseFullModel>().Queryable.ToList();
+            var courses = ctx.Courses.Project().To<CourseFullModel>().ToList();
             Console.WriteLine(GetResultsString("Courses", courses));
 
-            var courseWithStudents = ctx.Courses.Project().To<CourseWithOldStudentsModel>().Queryable.ToList();
+            var courseWithStudents = ctx.Courses.Project().To<CourseWithOldStudentsModel>().ToList();
             Console.WriteLine(GetResultsString("Courses with students", courseWithStudents));
         }
 
@@ -143,7 +143,7 @@ namespace LinqExpressionsMapper.Samples
             EnrollmentModel enrollmentModel = Mapper.From(enrollments[0]).To<EnrollmentModel>();
             Console.WriteLine(enrollmentModel);
 
-            var enrollmentModels = enrollments.Map().To<EnrollmentModel>().Enumerable.ToList();
+            var enrollmentModels = enrollments.Map().To<EnrollmentModel>().ToList();
             Console.WriteLine(GetResultsString("Enrollments", enrollmentModels));
         }
 

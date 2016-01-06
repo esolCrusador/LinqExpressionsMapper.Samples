@@ -12,7 +12,7 @@ namespace LinqExpressionsMapper.Samples.AllExamples
         public static void ShowStudents(SchoolContext context)
         {
             Mapper.Register(new StudentModelMapper());
-            var students = context.Students.Project().To<StudentModel>().Queryable.ToList();
+            var students = context.Students.Project().To<StudentModel>().ToList();
         }
 
         public class StudentModel

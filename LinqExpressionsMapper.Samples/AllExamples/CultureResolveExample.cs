@@ -21,10 +21,10 @@ namespace LinqExpressionsMapper.Samples.AllExamples
             };
 
             //Localized course names.
-            var courses = context.Courses.Project().To<CourseModel>().GetQueryable<Culture>(Culture.DE).ToList();
+            var courses = context.Courses.Project().To<CourseModel>(c=>c.WithParam(Culture.DE)).ToList();
 
             //Students with localized course names.
-            var studentCourses = context.Students.Project().To<StudentWithCourses>().GetQueryable<Culture>(Culture.ES).ToList();
+            var studentCourses = context.Students.Project().To<StudentWithCourses>(c=>c.WithParam(Culture.ES)).ToList();
         }
 
         public class CourseModel: ISelectExpression<Course, CourseModel, Culture>
