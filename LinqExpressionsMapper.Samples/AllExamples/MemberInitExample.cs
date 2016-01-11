@@ -93,7 +93,7 @@ namespace LinqExpressionsMapper.Samples.AllExamples
                     new StudentWithCoursesModel
                     {
                         MaxGade = student.Enrollments.Max(e=>e.Grade),
-                        Courses = Mapper.From<Course>().To<CourseBaseModel>().GetExpression().InitFrom(student.Enrollments.Select(er=>er.Course))
+                        Courses = Mapper.From<Course>().To<CourseBaseModel>().GetExpression().InitEnumerableFrom(student.Enrollments.Select(er=>er.Course)),
                     };
                 select = select.ApplyExpressions();
 
