@@ -92,11 +92,12 @@ namespace LinqExpressionsMapper.Samples.AllExamples
                 Expression<Func<Student, StudentWithCoursesModel>> select = student => 
                     new StudentWithCoursesModel
                     {
-                        MaxGade = student.Enrollments.Max(e=>e.Grade)
+                        MaxGade = student.Enrollments.Max(e=>e.Grade),
+                        Courses = Mapper.From<Course>().To<CourseBaseModel>().GetExpression().InitFrom(student.Enrollments.Select(er=>er.Course))
                     };
+                select = select.ApplyExpressions();
 
                 select = select.InheritInit(Mapper.From<Student>().To<StudentBaseModel>().GetExpression());
-                select = select.AddMemberInit(student => student.Enrollments.Select(enrollment => enrollment.Course), courseModel => courseModel.Courses, Mapper.From<Course>().To<CourseBaseModel>());
 
                 return select;
             }
