@@ -59,7 +59,7 @@ namespace LinqExpressionsMapper.Samples.AllExamples
                     StudentFullName = student.FirstMidName + " " + student.LastName
                 };
 
-                select = select.AddMemberInit(student => student.Enrollments.Select(enr => enr.Course), studentModel => studentModel.Courses, Mapper.From<Course>().To<CourseModel>().GetExpression<Culture>(cultureId));
+                select = select.AddMemberInit(student => student.Enrollments.Select(enr => enr.Course), studentModel => studentModel.Courses, Mapper.From<Course>().To<CourseModel>().WithParam<Culture>(cultureId).GetExpression());
 
                 return select;
             }

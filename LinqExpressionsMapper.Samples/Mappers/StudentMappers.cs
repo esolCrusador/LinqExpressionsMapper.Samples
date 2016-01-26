@@ -50,10 +50,10 @@ namespace LinqExpressionsMapper.Samples.Mappers
 
         public Expression<Func<Course, CourseModel2>> GetSelectExpression(Culture culture)
         {
-            return course=>new CourseModel2
+            return course => new CourseModel2
             {
                 CourseId = course.CourseID,
-                CourseName = course.CourseRes.FirstOrDefault(r=>r.Culture== culture).Title
+                CourseName = course.CourseRes.FirstOrDefault(r => r.Culture == culture).Title
             };
         }
 

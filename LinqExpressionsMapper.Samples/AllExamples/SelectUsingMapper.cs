@@ -14,7 +14,7 @@ namespace LinqExpressionsMapper.Samples.AllExamples
             Student newStudent = Mapper.From(new StudentModel2 {StudentId = 1, StudentName = "Boris Alexandrovich Sotsky"}).To<Student>().Using<StudentMappers>();
             var students = context.Students.Project().To<StudentModel2>(c=>c.Using<StudentMappers>()).ToList();
 
-            var courses = context.Courses.Project().To<CourseModel2>(c=>c.Using<StudentMappers, Culture>().WithParam(Culture.Default)).ToList();
+            var courses = context.Courses.Project().To<CourseModel2>(c=>c.WithParam(Culture.Default).Using<StudentMappers>()).ToList();
         }
     }
 }
