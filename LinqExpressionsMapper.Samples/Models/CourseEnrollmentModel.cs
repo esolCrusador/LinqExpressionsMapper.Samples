@@ -15,8 +15,8 @@ namespace LinqExpressionsMapper.Samples.Models
 
             };
 
-            select = select.InheritInit(Mapper.GetExternalExpression<Enrollment, EnrollmentBaseModel>());
-            select = select.AddMemberInit(enrollment => enrollment.Student, enrollment => enrollment.Student, Mapper.GetExternalExpression<Student, StudentModel>());
+            select = select.InheritInit(Mapper.From<Enrollment>().To<EnrollmentBaseModel>().GetExpression());
+            select = select.AddMemberInit(enrollment => enrollment.Student, enrollment => enrollment.Student, Mapper.From<Student>().To<StudentModel>());
 
             return select;
         }

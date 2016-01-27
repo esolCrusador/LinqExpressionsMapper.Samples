@@ -21,10 +21,10 @@ namespace LinqExpressionsMapper.Samples.AllExamples
             };
 
             //Localized course names.
-            var courses = context.Courses.ResolveSelectExternal<Course, CourseModel, Culture>(Culture.DE).ToList();
+            var courses = context.Courses.Project().To<CourseModel>(c=>c.WithParam(Culture.DE)).ToList();
 
             //Students with localized course names.
-            var studentCourses = context.Students.ResolveSelect<Student, StudentWithCourses, Culture>(Culture.ES).ToList();
+            var studentCourses = context.Students.Project().To<StudentWithCourses>(c=>c.WithParam(Culture.ES)).ToList();
         }
 
         public class CourseModel: ISelectExpression<Course, CourseModel, Culture>
@@ -59,7 +59,7 @@ namespace LinqExpressionsMapper.Samples.AllExamples
                     StudentFullName = student.FirstMidName + " " + student.LastName
                 };
 
-                select = select.AddMemberInit(student => student.Enrollments.Select(enr => enr.Course), studentModel => studentModel.Courses, Mapper.GetExternalExpression<Course, CourseModel, Culture>(cultureId));
+                select = select.AddMemberInit(student => student.Enrollments.Select(enr => enr.Course), studentModel => studentModel.Courses, Mapper.From<Course>().To<CourseModel>().WithParam<Culture>(cultureId).GetExpression());
 
                 return select;
             }

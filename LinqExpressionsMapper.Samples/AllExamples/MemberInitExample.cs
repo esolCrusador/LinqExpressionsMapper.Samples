@@ -12,10 +12,10 @@ namespace LinqExpressionsMapper.Samples.AllExamples
         public static void ShowStudents(SchoolContext context)
         {
             // Reuse member init of single member.
-            var enrollments = context.Enrollments.ResolveSelect<Enrollment, EnrollmentModel>().ToList();
+            var enrollments = context.Enrollments.Project().To<EnrollmentModel>().ToList();
 
             // Reurse member init of IEnumerable of members.
-            var studentsWithCourses = context.Students.ResolveSelect<Student, StudentWithCoursesModel>().ToList();
+            var studentsWithCourses = context.Students.Project().To<StudentWithCoursesModel>().ToList();
         }
 
         public class EnrollmentModel: ISelectExpression<Enrollment, EnrollmentModel>
@@ -81,22 +81,62 @@ namespace LinqExpressionsMapper.Samples.AllExamples
             }
         }
 
-        public class StudentWithCoursesModel:StudentBaseModel, ISelectExpression<Student, StudentWithCoursesModel>
+        public class StudentWithCoursesModel : StudentBaseModel, ISelectExpression<Student, StudentWithCoursesModel>
         {
             public IEnumerable<CourseBaseModel> Courses { get; set; }
+            public IEnumerable<CourseBaseModel> PositiveGradedCourses { get; set; }
 
             public Grade? MaxGade { get; set; }
 
             Expression<Func<Student, StudentWithCoursesModel>> ISelectExpression<Student, StudentWithCoursesModel>.GetSelectExpression()
             {
-                Expression<Func<Student, StudentWithCoursesModel>> select = student => 
-                    new StudentWithCoursesModel
-                    {
-                        MaxGade = student.Enrollments.Max(e=>e.Grade)
-                    };
 
-                select = select.InheritInit(Mapper.GetExpression<Student, StudentBaseModel>());
-                select = select.AddMemberInit(student => student.Enrollments.Select(enrollment => enrollment.Course), courseModel => courseModel.Courses, Mapper.GetExpression<Course, CourseBaseModel>());
+    Expression<Func<Student, StudentWithCoursesModel>> select = student =>
+        new StudentWithCoursesModel
+        {
+            MaxGade = student.Enrollments.Max(e => e.Grade),
+            Courses = Mapper.From<Course>().To<CourseBaseModel>().GetExpression()
+                .InvokeEnumerable(student.Enrollments.Select(er => er.Course)),
+        };
+    select = select.ApplyExpressions();
+
+    select = select.AddMemberInit(
+        s => s.Enrollments.Where(e => e.Grade <= Grade.C).Select(e => e.Course),
+        s => s.PositiveGradedCourses,
+        Mapper.From<Course>().To<CourseBaseModel>().GetExpression());
+
+    select = select.InheritInit(Mapper.From<Student>().To<StudentBaseModel>().GetExpression());
+
+                // RESULT:
+                //select = student => new StudentWithCoursesModel
+                //{
+                //    StudentId = student.ID,
+                //    FullName = student.FirstMidName + " " + student.LastName,
+                //    MaxGade = student.Enrollments.Max(e => e.Grade),
+
+                //    Courses = student.Enrollments.Select(er => er.Course)
+                //        .Select(course => new CourseBaseModel
+                //        {
+                //            CourseId = course.CourseID,
+                //            CourseName = course.Title,
+                //            Credits = course.Credits
+                //        }),
+                //    PositiveGradedCourses = student.Enrollments.Where(e => e.Grade <= Grade.C)
+                //        .Select(e => e.Course)
+                //        .Select(course => new CourseBaseModel
+                //        {
+                //            CourseId = course.CourseID,
+                //            CourseName = course.Title,
+                //            Credits = course.Credits
+                //        })
+                //};
+
+                var memberInit = Mapper.From<Course>().To<CourseBaseModel>().GetExpression();
+    select = student => new StudentWithCoursesModel
+    {
+        Courses = student.Enrollments.Select(er => memberInit.Invoke(er.Course))
+    };
+    select = select.ApplyExpressions();
 
                 return select;
             }
